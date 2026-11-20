@@ -1,0 +1,8 @@
+# Base de datos local: se regenera con "axios iniciar"
+*.db
+*.db-journal
+.cpcache/
+.nrepl-port
+.lsp/
+.clj-kondo/.cache/
+target/
