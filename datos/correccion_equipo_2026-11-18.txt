@@ -1,0 +1,13 @@
+# Correcciones nuestras al manual 0.7, sacadas de las señales de la semana 1.
+# La explicación de cada una está en docs/bitacora.md
+@tipo correccion
+@fuente equipo (señales semana 1)
+
+[reglas]
+# lengua | clave | valor | nota
+kethari | numero.base | 6 | D-02: ra-sel = 2*6+3 = 15 (día 3), ti-vo = 1*6+0 = 6 (día 7)
+
+[palabras]
+# lengua | forma | concepto | categoría | rasgos | nota
+kethari | anul | nosotros | pronombre | persona=1 numero=pl clusividad=inclusivo | D-03: an + ul, nosotros incluyéndote
+kethari | anir | nosotros | pronombre | persona=1 numero=pl clusividad=exclusivo | D-03: an + ir, nosotros sin ti (día 4)

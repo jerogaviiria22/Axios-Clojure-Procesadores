@@ -1,0 +1,89 @@
+# Manual de decodificación de Axios v0.7, pasado del documento del proyecto.
+# Las categorías y los rasgos (persona, número...) los pusimos nosotros,
+# el manual no los trae.
+@tipo manual
+@version 0.7
+@fuente manual v0.7
+
+[lexico]
+# concepto | categoría | español | kethari | ozh | rasgos
+yo        | pronombre     | yo                 | an         | ʔen    | persona=1 numero=sg
+tu        | pronombre     | tú, usted          | ul         | sha    | persona=2 numero=sg
+el        | pronombre     | él, ella           | ir         | oru    | persona=3 numero=sg
+nosotros  | pronombre     | nosotros           | anul, anir | ʔenka  | persona=1 numero=pl
+ustedes   | pronombre     | ustedes            | ulesh      | shavi  | persona=2 numero=pl
+ellos     | pronombre     | ellos, ellas       | iresh      | oruvi  | persona=3 numero=pl
+planeta   | sustantivo    | planeta, mundo     | vael       | thüm   |
+estrella  | sustantivo    | estrella           | sorin      | ral    |
+tierra    | sustantivo    | tierra             | teka       | mak    |
+agua      | sustantivo    | agua               | dahl       | naʔ    |
+nave      | sustantivo    | nave               | kum        | gor    |
+mensaje   | sustantivo    | mensaje            | ombra      | vesh   |
+paz       | sustantivo    | paz                | parn       | ilu    |
+ciclo     | sustantivo    | ciclo              | lun        | drüm   |
+año       | sustantivo    | año                | sorlun     | drümak |
+luz       | sustantivo    | luz                | zett       | osk    |
+criatura  | sustantivo    | criatura, ser vivo | yorr       | fen    |
+hogar     | sustantivo    | hogar              | hosk       | beth   |
+venir     | verbo         | venir, llegar      | vin        | sur    |
+enviar    | verbo         | enviar             | sal        | dra    |
+ver       | verbo         | ver                | kor        | ʔim    |
+querer    | verbo         | querer             | thal       | lom    |
+ser       | verbo         | ser, estar         | mi         | ha     |
+hablar    | verbo         | hablar             | lar        | tal    |
+escuchar  | verbo         | escuchar           | rhu        | nem    |
+esperar   | verbo         | esperar            | tep        | bo     |
+visitar   | verbo         | visitar            | dun        | kesh   |
+que       | interrogativo | qué                | kel        | wu     | pregunta=que
+cuando    | interrogativo | cuándo             | kom        | wem    | pregunta=cuando
+donde     | interrogativo | dónde              | dor        | wor    | pregunta=donde
+cuantos   | interrogativo | cuántos            | kai        | wak    | pregunta=cuantos
+quien     | interrogativo | quién              | sem        | wis    | pregunta=quien
+
+[numeros]
+# valor | kethari | ozh      (vacío = el manual no da la palabra)
+0 | vo  | zu
+1 | ti  | ois
+2 | ra  | dav
+3 | sel | kru
+4 | mok | fem
+5 | pai | ulo
+6 |     | sab
+7 |     | nir
+8 |     | tok
+9 |     | hev
+
+[reglas]
+# lengua | clave | valor
+# --- Kethari (manual 3.3) ---
+kethari | orden                      | sujeto objeto verbo
+kethari | sujeto.obligatorio         | si
+kethari | tiempo.pasado              | sufijo ok
+kethari | tiempo.futuro              | sufijo ime
+kethari | tiempo.presente            | ninguno
+kethari | negacion                   | prefijo nu
+kethari | plural                     | sufijo esh
+kethari | plural.con.numero          | si
+kethari | numero.posicion            | antes
+kethari | pregunta.particula         | ka
+kethari | interrogativo.posicion     | inicio
+kethari | posesivo.posicion          | antes
+kethari | articulos                  | no
+kethari | numero.separador           | -
+# --- Ozh (manual 3.4) ---
+ozh | orden                          | verbo sujeto objeto
+ozh | sujeto.obligatorio             | si
+ozh | evidencial.particulas          | zi mar tho
+ozh | evidencial.posicion            | despues-del-verbo
+ozh | evidencial.obligatorio         | si
+ozh | tiempo.pasado                  | palabra-inicial ʔoka
+ozh | tiempo.futuro                  | palabra-inicial venu
+ozh | tiempo.presente                | ninguno
+ozh | negacion                       | palabra-antes-del-verbo ne
+ozh | plural                         | ninguno
+ozh | pregunta.marca                 | prefijo ʔa
+ozh | interrogativo.posicion         | final
+ozh | posesivo.posicion              | despues
+ozh | articulos                      | no
+ozh | numero.separador               | -
+ozh | numero.base                    | 10
