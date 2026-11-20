@@ -1,70 +1,81 @@
-# Expediente Axios — traductor español → Kethari y Ozh
+# Axios - traductor español a Kethari y Ozh
 
-Proyecto final de Procesadores de Lenguaje. El sistema traduce preguntas en español a las dos lenguas de Axios, valida su propia salida y guarda todo en una base de datos SQLite local.
+Proyecto final de Procesadores de Lenguaje (Prof. John Harold Morales).
 
-Estado: **parte 1 de 5** (base de datos, carga de archivos, orden `palabra`).
+El programa recibe preguntas en español y las traduce a las dos lenguas de Axios. Todo lo que sabe (palabras, reglas, señales) lo guarda en una base de datos SQLite local.
 
-## Requisitos (Windows)
+Por ahora está hecha la parte 1: la base de datos, la orden `cargar` y la orden `palabra`.
 
-1. **Java 21** (Temurin): https://adoptium.net. Marca la opción «Set JAVA_HOME» al instalar.
-2. **Clojure CLI** para Windows con el instalador MSI: https://github.com/casselc/clj-msi/releases. Deja disponibles `clj` y `clojure` en cmd y PowerShell.
-3. Comprueba en una consola nueva:
+## Qué hay que instalar
 
-   ```
-   java -version
-   clojure -M -e "(println :ok)"
-   ```
+- Java 21. Nosotros usamos Temurin: https://adoptium.net (al instalar, marcar "Set JAVA_HOME").
+- Clojure para Windows, con el instalador .msi de https://github.com/casselc/clj-msi/releases
 
-   La primera vez, Clojure descarga sus dependencias (Clojure 1.12 y el controlador de SQLite). Después ya no necesita internet.
+Para ver si quedó bien, abrir una consola nueva y correr:
 
-## Uso
+```
+java -version
+clojure -M -e "(println :ok)"
+```
+
+La primera vez Clojure se demora un poco porque descarga las librerías (Clojure 1.12 y el driver de SQLite).
+
+## Cómo se usa
 
 Desde la carpeta del proyecto:
 
 ```
-axios iniciar --borrar            crea axios.db y carga todo lo que hay en datos\
+axios iniciar --borrar
 axios cargar datos\senales_semana2.txt
 axios palabra nave
+axios palabra salok
 axios palabra anul
 axios palabra anul en 2026-11-18 10:00
-axios palabra salok               forma con afijos: sal + ok (pasado)
-pruebas                           corre las pruebas automáticas
+pruebas
 ```
 
-`axios.bat` es un atajo de `clojure -M:axios ...`, y `pruebas.bat`, de `clojure -M:test`. En Linux o macOS se usan esos comandos directamente.
+- `iniciar --borrar` crea `axios.db` desde cero y carga lo que hay en `datos\`. La base de datos no se sube al repo, porque se arma con esta orden.
+- `cargar` mete un archivo nuevo de señales o de correcciones, sin tocar el código.
+- `palabra` muestra lo que el sistema sabe de una palabra. Si le pones `en <fecha>`, muestra lo que sabía ese día.
+- `pruebas` corre las pruebas automáticas.
 
-Opción global: `--bd <ruta>` para usar otra base de datos. Por defecto se usa `axios.db` o el valor de la variable `AXIOS_BD`.
+`axios.bat` y `pruebas.bat` son atajos de `clojure -M:axios` y `clojure -M:test`.
 
-## Estructura
+Con `--bd otra.db` se puede usar otra base de datos.
+
+## Carpetas
 
 ```
-datos/                 todo el conocimiento del sistema (no está en el código)
-  manual_v0.7.txt        léxico, números y reglas del manual
-  senales_semana1.txt    señales recibidas
-  correccion_*.txt       correcciones del equipo, cada una explicada en la bitácora
-src/axios/
-  texto.clj              utilidades de texto sin expresiones regulares
-  bd.clj                 conexión SQLite, esquema y versiones
-  carga.clj              lectura de los archivos de datos (orden cargar)
-  consulta.clj           consultas al léxico en una fecha (orden palabra)
-  consola.clj            salida con tildes y ʔ en la consola de Windows
-  cli.clj                interfaz de línea de comandos
-test/axios/              pruebas automáticas (clojure.test)
-docs/bitacora.md         decisiones con fecha, opciones y prueba
+datos/    manual, señales y correcciones (aquí está todo el léxico y las reglas)
+src/      código
+test/     pruebas
+docs/     bitácora de decisiones
 ```
+
+Dentro de `src/axios`:
+
+- `texto.clj`: funciones para partir y limpiar texto (sin regex).
+- `bd.clj`: conexión a SQLite y creación de las tablas.
+- `carga.clj`: lee los archivos de `datos/`.
+- `consulta.clj`: búsquedas en el léxico.
+- `consola.clj`: arregla las tildes y la ʔ en la consola de Windows.
+- `cli.clj`: las órdenes.
 
 ## Formato de los archivos de datos
 
-Las líneas que empiezan con `#` son comentarios. Las que empiezan con `@` son directivas (`@tipo manual`, `@tipo correccion`, `@tipo senales`). `[seccion]` abre una sección. Los campos se separan con `|`, con un tabulador o con `;`.
+- `#` es un comentario.
+- `@tipo`, `@version` y `@fuente` dicen qué es el archivo.
+- `[seccion]` abre una sección.
+- Los campos van separados con `|`. También sirven el tabulador o el `;`.
 
-Un archivo de señales puede venir sin directivas: si cada línea empieza con el número de día, se reconoce solo.
+Si un archivo de señales no trae `@tipo`, igual se reconoce cuando cada línea empieza con el número del día:
 
 ```
-8 | Kethari | ... | salida del decodificador
+8 | Kethari | ... | lo que dio el decodificador
 ```
 
-Una corrección del manual nunca borra nada: crea una versión nueva y deja la anterior cerrada con su fecha. Por eso `palabra X en <fecha>` responde con lo que el sistema sabía en ese momento.
+Cuando se corrige una palabra no se borra la versión vieja. Queda guardada con su fecha, y por eso `palabra X en <fecha>` funciona.
 
-## Si las tildes o la ʔ se ven mal en Windows
+## Tildes en Windows
 
-El programa cambia la consola a UTF-8 (`chcp 65001`) mientras corre y la restaura al salir. Si tu consola no lo permite, la ʔ se muestra como `'`. Windows Terminal muestra todo correctamente.
+Mientras corre, el programa pone la consola en UTF-8 (`chcp 65001`) y al salir la deja como estaba. Si aun así la ʔ no sale, se muestra como `'`.
